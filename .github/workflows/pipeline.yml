@@ -1,0 +1,94 @@
+name: ACI Terraform CI/CD
+
+on:
+
+  push:
+
+    branches:
+      - main
+
+jobs:
+
+  terraform:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      #
+      # Checkout Repository
+      #
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      #
+      # Setup Python
+      #
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+
+        with:
+          python-version: "3.11"
+
+      #
+      # Install Python Packages
+      #
+
+      - name: Install Python Packages
+        run: |
+
+          pip install -r requirements.txt
+
+      #
+      # Generate YAML
+      #
+
+      - name: Generate YAML
+        run: |
+
+          python generate_yaml.py
+
+      #
+      # Setup Terraform
+      #
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      #
+      # Terraform Init
+      #
+
+      - name: Terraform Init
+
+        working-directory: terraform
+
+        run: |
+
+          terraform init
+
+      #
+      # Terraform Validate
+      #
+
+      - name: Terraform Validate
+
+        working-directory: terraform
+
+        run: |
+
+          terraform validate
+
+      #
+      # Terraform Plan
+      #
+
+      - name: Terraform Plan
+
+        working-directory: terraform
+
+        run: |
+
+          terraform plan

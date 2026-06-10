@@ -1,0 +1,8 @@
+tenant:
+  name: DEV_Tenant
+
+vrf:
+  name: PROD_VRF
+
+bridge_domain:
+  name: WEB_BD
