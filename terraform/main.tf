@@ -30,16 +30,14 @@ provider "aci" {
   insecure = true
 }
 
-module "aci" {
+locals {
 
-  source = "../terraform-aci-nac-aci"
+  config = yamldecode(
+    file("${path.module}/../data/tenant.yaml")
+  )
+}
 
-  yaml_directories = ["../data"]
+resource "aci_tenant" "tenant" {
 
-  manage_access_policies   = false
-  manage_fabric_policies   = false
-  manage_pod_policies      = false
-  manage_node_policies     = false
-  manage_interface_policies = false
-  manage_tenants           = true
+  name = local.config.tenant.name
 }
