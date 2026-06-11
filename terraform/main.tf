@@ -30,14 +30,8 @@ provider "aci" {
   insecure = true
 }
 
-locals {
-
-  config = yamldecode(
-    file("${path.module}/../data/tenant.yaml")
-  )
+module "aci" {
+source = "git::https://github.com/netascode/terraform-aci-nac-aci.git?ref=v0.9.1"
+yaml_directories = ["../data"]
 }
 
-resource "aci_tenant" "tenant" {
-
-  name = local.config.tenant.name
-}
