@@ -1,0 +1,8 @@
+---
+apic:
+  tenants:
+    - name: nac-user01
+      #managed: false
+      vrfs:
+        - name: VRF1
+        - name: VRF2
